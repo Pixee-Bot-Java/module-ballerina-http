@@ -40,10 +40,12 @@ public class HttpIntrospectionResource extends HttpResource {
         this.payload = payload.clone();
     }
 
+    @Override
     public String getName() {
         return RESOURCE_METHOD + RESOURCE_NAME;
     }
 
+    @Override
     public String getPath() {
         return SINGLE_SLASH + RESOURCE_NAME;
     }
@@ -52,14 +54,17 @@ public class HttpIntrospectionResource extends HttpResource {
         return this.payload.clone();
     }
 
+    @Override
     public List<String> getMethods() {
         return List.of(HttpConstants.HTTP_METHOD_GET);
     }
 
+    @Override
     public List<String> getConsumes() {
         return null;
     }
 
+    @Override
     public List<String> getProduces() {
         return null;
     }

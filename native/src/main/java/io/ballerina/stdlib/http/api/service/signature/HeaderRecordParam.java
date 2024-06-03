@@ -42,6 +42,7 @@ public class HeaderRecordParam extends HeaderParam {
         this.fields = fields.clone();
     }
 
+    @Override
     public RecordType getOriginalType() {
         return (RecordType) this.type;
     }
