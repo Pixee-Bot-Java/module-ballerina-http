@@ -54,6 +54,8 @@ import io.ballerina.stdlib.http.transport.message.ResponseHandle;
 import io.ballerina.stdlib.mime.util.EntityBodyHandler;
 import io.ballerina.stdlib.mime.util.HeaderUtil;
 import io.ballerina.stdlib.mime.util.MultipartDataSource;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import io.netty.handler.codec.EncoderException;
 import io.netty.handler.codec.http.DefaultLastHttpContent;
 import io.netty.handler.codec.http.HttpHeaderNames;
@@ -128,7 +130,7 @@ public abstract class AbstractHTTPAction {
         }
         try {
             String uri = getServiceUri(serviceUri) + path;
-            URL url = new URL(encodeWhitespacesInUri(uri));
+            URL url = Urls.create(encodeWhitespacesInUri(uri), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
 
             int port = getOutboundReqPort(url);
             String host = url.getHost();
