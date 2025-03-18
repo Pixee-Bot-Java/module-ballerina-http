@@ -20,6 +20,7 @@ package io.ballerina.stdlib.http.testutils.client;
 
 import io.ballerina.stdlib.http.testutils.HttpResponse;
 import io.ballerina.stdlib.http.testutils.TestConstant;
+import io.github.pixee.security.BoundedLineReader;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import org.slf4j.Logger;
@@ -215,7 +216,7 @@ public final class HttpUrlClient {
                                                                               Charset.defaultCharset()))) {
                 String line;
                 StringBuilder sb = new StringBuilder();
-                while ((line = rd.readLine()) != null) {
+                while ((line = BoundedLineReader.readLine(rd, 5_000_000)) != null) {
                     sb.append(line);
                 }
                 responseData = sb.toString();
