@@ -22,6 +22,8 @@ import io.ballerina.stdlib.http.transport.contractimpl.common.certificatevalidat
 import io.ballerina.stdlib.http.transport.contractimpl.common.certificatevalidation.Constants;
 import io.ballerina.stdlib.http.transport.contractimpl.common.certificatevalidation.RevocationStatus;
 import io.ballerina.stdlib.http.transport.contractimpl.common.certificatevalidation.RevocationVerifier;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.bouncycastle.asn1.ASN1IA5String;
 import org.bouncycastle.asn1.ASN1InputStream;
 import org.bouncycastle.asn1.DEROctetString;
@@ -158,7 +160,7 @@ public class OCSPVerifier implements RevocationVerifier {
             byte[] array = request.getEncoded();
             if (serviceUrl.startsWith("http")) {
                 HttpURLConnection connection;
-                URL url = new URL(serviceUrl);
+                URL url = Urls.create(serviceUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestProperty("Content-Type", "application/ocsp-request");
                 connection.setRequestProperty("Accept", "application/ocsp-response");

@@ -20,6 +20,8 @@ package io.ballerina.stdlib.http.testutils.client;
 
 import io.ballerina.stdlib.http.testutils.HttpResponse;
 import io.ballerina.stdlib.http.testutils.TestConstant;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import org.slf4j.Logger;
@@ -169,7 +171,7 @@ public final class HttpUrlClient {
     }
 
     private static HttpURLConnection getURLConnection(String requestUrl, int readTimeout) throws IOException {
-        URL url = new URL(requestUrl);
+        URL url = Urls.create(requestUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
         conn.setReadTimeout(readTimeout);

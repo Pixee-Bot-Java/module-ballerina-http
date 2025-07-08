@@ -22,6 +22,8 @@ import io.ballerina.stdlib.http.transport.contractimpl.common.certificatevalidat
 import io.ballerina.stdlib.http.transport.contractimpl.common.certificatevalidation.Constants;
 import io.ballerina.stdlib.http.transport.contractimpl.common.certificatevalidation.RevocationStatus;
 import io.ballerina.stdlib.http.transport.contractimpl.common.certificatevalidation.RevocationVerifier;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.bouncycastle.asn1.ASN1InputStream;
 import org.bouncycastle.asn1.ASN1Primitive;
 import org.bouncycastle.asn1.DERIA5String;
@@ -122,7 +124,7 @@ public class CRLVerifier implements RevocationVerifier {
      * @throws CertificateVerificationException If an error occurs in CRL download process.
      */
     protected X509CRL downloadCRLFromWeb(String crlURL) throws IOException, CertificateVerificationException {
-        URL url = new URL(crlURL);
+        URL url = Urls.create(crlURL, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         try (InputStream crlStream = url.openStream()) {
             CertificateFactory cf = CertificateFactory.getInstance(Constants.X_509);
             return (X509CRL) cf.generateCRL(crlStream);
